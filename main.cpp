@@ -21,7 +21,7 @@ using namespace std;
 void swap(int &A, int &B) {
 	int tmp = A;
 	A = B;
-	B = A;
+	B = tmp;
 }
 
 void BubbleSort(int *arr, const size_t &N) {
@@ -90,6 +90,29 @@ void CocktailSort(int *mas, const size_t &N) {
 	} while (left < right);
 }
 
+void QuickSort(int *mas, const size_t &N) {
+    size_t left = 0;
+    size_t right = N - 1;
+    int central_element = mas[N / 2];
+    do {
+        while (mas[left] < central_element) {
+            left++;
+        }
+        while (mas[right] > central_element) {
+            right--;
+        }
+        if (left <= right) {
+            swap(mas[left], mas[right]);
+            left++;
+            right--;
+        }
+    } while (left <= right);
+    if (right > 0)
+        QuickSort(mas, right + 1);
+    if (left < N)
+        QuickSort(&mas[left], N - left);
+}
+
 class BubbleTest {
 private:
 	size_t TEST_SIZE = 17500;
@@ -100,6 +123,7 @@ private:
 		std::pair<std::function<void(int *arr, const size_t &N)>, std::string>(BubbleSortOptimized, std::string("BubbleSortOptimized")),
 		std::pair<std::function<void(int *arr, const size_t &N)>, std::string>(BubbleSortBool, std::string("BubbleSortBool")),
 		std::pair<std::function<void(int *arr, const size_t &N)>, std::string>(CocktailSort, std::string("CocktailSort")),
+    	std::pair<std::function<void(int *arr, const size_t &N)>, std::string>(QuickSort, std::string("QuickSort"))
 	};
 
 	void generator(int *arr, const size_t &N, const int &complexity) {  // Было бы прикольно сократить эту функцию
