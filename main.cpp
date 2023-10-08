@@ -90,32 +90,38 @@ void CocktailSort(int *mas, const size_t &N) {
 	} while (left < right);
 }
 
+// Что то из библиотеки какая то хрень с быстрой сортировкой. Взял другой алгоритм
+int partition(int *a, int start, int end) {
+    int pivot = a[end];
+    int pIndex = start;
+
+    for (int i = start; i < end; i++) {
+        if (a[i] >= pivot) {
+            swap(a[i], a[pIndex]);
+            pIndex++;
+        }
+    }
+    swap (a[pIndex], a[end]);
+    return pIndex;
+}
+
+void quicksort(int *a, int start, int end) {
+    if (start >= end)
+        return;
+
+    int pivot = partition(a, start, end);
+
+    quicksort(a, start, pivot - 1);
+    quicksort(a, pivot + 1, end);
+}
+
 void QuickSort(int *mas, const size_t &N) {
-    size_t left = 0;
-    size_t right = N - 1;
-    int central_element = mas[N / 2];
-    do {
-        while (mas[left] < central_element) {
-            left++;
-        }
-        while (mas[right] > central_element) {
-            right--;
-        }
-        if (left <= right) {
-            swap(mas[left], mas[right]);
-            left++;
-            right--;
-        }
-    } while (left <= right);
-    if (right > 0)
-        QuickSort(mas, right + 1);
-    if (left < N)
-        QuickSort(&mas[left], N - left);
+    quicksort(mas, 0, N - 1);
 }
 
 class BubbleTest {
 private:
-	size_t TEST_SIZE = 17500;
+	size_t TEST_SIZE = 10000;
 
 	std::vector<std::pair<std::function<void(int *arr, const size_t &N)>, std::string>> foo = {
 		std::pair<std::function<void(int *arr, const size_t &N)>, std::string>(BubbleSort, std::string("BubbleSort")),
@@ -174,7 +180,7 @@ public:
 
 			std::vector<size_t> x;
 			std::vector<double> y;
-			for (size_t n = 100; n <= TEST_SIZE; n += 100) {  // Будем считать, что это нормално (ужасно)
+			for (size_t n = 200; n <= TEST_SIZE; n += 200) {  // Будем считать, что это нормално (ужасно)
 				int *arr = new int[n];
 				generator(arr, n, 0);
 				x.push_back(n);
