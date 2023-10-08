@@ -1,0 +1,19 @@
+# Файлы системы
+*.DS_Store
+*.csv
+
+# LaTeX файлы
+*.toc
+*.synctex.*
+*.run
+*.out
+*.log
+*.bcf
+*.aux
+*.xml
+
+# Matlab файлы
+*.asv
+
+# Jupiter notebook file
+*.ipynb_checkpoints
